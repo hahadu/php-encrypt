@@ -1,0 +1,33 @@
+{
+    "name": "hahadu/php-encrypt",
+    "description": "",
+    "type": "library",
+    "require": {
+        "php": ">=7.1",
+        "ext-openssl": "*"
+    },
+    "require-dev": {
+
+    },
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "hahadu",
+            "email": "582167246@qq.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Hahadu\\Encrypt\\": "src/"
+        }
+    },
+    "extra": {
+        "think": {
+            "config": {
+                "wechat": "config/wechat.php"
+            }
+        }
+    },
+
+    "minimum-stability": "dev"
+}
