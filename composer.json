@@ -21,13 +21,6 @@
             "Hahadu\\Encrypt\\": "src/"
         }
     },
-    "extra": {
-        "think": {
-            "config": {
-                "wechat": "config/wechat.php"
-            }
-        }
-    },
 
     "minimum-stability": "dev"
 }
