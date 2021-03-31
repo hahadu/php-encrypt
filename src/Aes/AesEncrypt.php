@@ -16,6 +16,7 @@
  **/
 
 namespace Hahadu\Encrypt\Aes;
+use Hahadu\Encrypt\Base64\Base64;
 
 /****
  * AES加解密类
@@ -50,6 +51,11 @@ final class AesEncrypt
      */
     protected $options;
 
+    /****
+     * @var Base64 base64编解码
+     */
+    protected $base64;
+
     /**
      * 构造函数
      *
@@ -62,6 +68,7 @@ final class AesEncrypt
      */
     public function __construct($key, $method = 'AES-256-ECB', $iv = '', $options = OPENSSL_NO_PADDING)
     {
+        $this->base64 = new Base64();
         // key是必须要设置的
         $this->secret_key = isset($key) ? $key : '132465';
 
@@ -82,7 +89,7 @@ final class AesEncrypt
     public function encrypt($data)
     {
         $aesValue = openssl_encrypt($data, $this->method, $this->secret_key, $this->options, $this->iv);
-        return $this->url_safe_b64encode($aesValue);
+        return $this->base64->url_safe_b64encode($aesValue);
     }
 
     /**
@@ -92,33 +99,8 @@ final class AesEncrypt
      */
     public function decrypt($data)
     {
-        $data = $this->url_safe_b64decode($data);
-    //    $data = base64_decode($data,true);
+        $data = $this->base64->url_safe_b64decode($data);
         return openssl_decrypt($data, $this->method, $this->secret_key, $this->options, $this->iv);
     }
 
-    /****
-     * base64编码
-     * @param $string
-     * @return string|string[]
-     */
-    public function url_safe_b64encode ($string) {
-        $data = base64_encode ($string);
-        $data = str_replace ( array('+', '/', '=') , array('-', '_', '') , $data );
-        return $data;
-    }
-
-    /*****
-     * base64解码
-     * @param $string
-     * @return false|string
-     */
-    public function url_safe_b64decode ($string) {
-        $data = str_replace ( array('-', '_') , array('+', '/') , $string );
-        $mod4 = strlen ($data) % 4;
-        if ($mod4) {
-            $data .= substr('====', $mod4);
-        }
-        return base64_decode($data);
-    }
 }
